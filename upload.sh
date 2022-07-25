@@ -7,7 +7,7 @@ DRAGON_DIR="${MAIN_DIR}/dragon"
 
 echo "${PWD}"
 
-rsync -avu --exclude venv .idea --delete "${PWD}/" "${RASPI}:${MAIN_DIR}"
+rsync -avu --exclude venv --exclude .idea --delete "${PWD}/" "${RASPI}:${MAIN_DIR}"
 
 
 for fn in "$@"
