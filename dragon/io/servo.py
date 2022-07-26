@@ -4,23 +4,19 @@ import RPi.GPIO as GPIO
 import sys
 import Adafruit_PCA9685
 
-'''
-change this form 1 to 0 to reverse servos
-'''
-pwm0_direction = 1
-pwm1_direction = 1
-pwm2_direction = 1
-pwm3_direction = 1
-
 
 pwm = Adafruit_PCA9685.PCA9685()
 pwm.set_pwm_freq(50)
 
-camera = (100, 180, 190) # head up, resting, down
-servo_a = (100, 300, 530)
-servo_b = (100, 310, 460)
-servo_c = (100, 330, 530)
-servo_d = (100, 300) # open close
+camera          = (100, 180, 190)            # head up, resting, down
+servo_shoulder  = (100, 300, 530)
+servo_elbow     = (100, 310, 460)
+servo_wrist     = (100, 330, 530)
+servo_clamp     = (100, 300, 300)           # open close
+
+distance_shoulder_elbow_cm = 10
+distance_shoulder_clamp_cm = 20
+shoulder_height_cm = 20
 
 
 def manual_configuration():
