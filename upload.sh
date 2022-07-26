@@ -3,7 +3,6 @@
 RASPI="dragon@192.168.1.38"
 MAIN_DIR="/tmp/project"
 SCRIPT_DIR="${MAIN_DIR}/scripts"
-DRAGON_DIR="${MAIN_DIR}/dragon"
 
 echo "${PWD}"
 
@@ -15,4 +14,4 @@ do
     ssh "${RASPI}" "cd $MAIN_DIR; sh ${SCRIPT_DIR}/${fn}.sh"
 done
 
-ssh "${RASPI}" "python3 ${DRAGON_DIR}/main.py"
+ssh "${RASPI}" "python3 ${MAIN_DIR}/main.py"

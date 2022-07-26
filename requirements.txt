@@ -1,5 +1,12 @@
+Adafruit-GPIO==1.0.3
+Adafruit-PCA9685==1.0.1
+Adafruit-PureIO==1.1.9
 numpy==1.23.1
 pandas==1.4.3
+# picamera==1.13
 python-dateutil==2.8.2
 pytz==2022.1
 six==1.16.0
+spidev==3.5
+opencv-python==4.6.0.66
+RPi.GPIO==0.7.1
