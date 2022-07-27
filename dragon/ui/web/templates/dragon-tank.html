@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block script %}
+<!-- 
+put your custom script or styling here
+
+-->
+{% endblock script %}
+
+
+{% block my_content %}
+<!-- Altair plot placeholder -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-6">
+            <!-- Placeholder for map-->
+            <div id="arm" ></div>
+        </div>
+        <div class="col"> </div>
+    </div>
+</div>
+
+<!-- -->
+<script type=text/javascript>
+        $(function() {
+          $('div#arm').on('click', function(e) {
+            e.preventDefault()
+            $.getJSON('/background_process_test',
+                function(data) {
+              //do nothing
+            });
+            return false;
+          });
+        });
+</script>
+
+<!-- Render Charts -->
+<script type="text/javascript">
+    function parse(url, div) {
+        var opt = {
+            mode: "vega-lite",
+            renderer: "svg",
+            actions: { export: true, source: false, editor: false }
+        };
+        vegaEmbed("#" + div, url, opt, function (error, result) {
+            // result.view is the Vega View, url is the original Vega-Lite specification
+            vegaTooltip.vegaLite(result.view, url);
+        });
+    }
+    //Parse your Json variable here
+    parse({{ context.dragon_arm | safe }}, "arm");
+</script>
+{% endblock my_content %}

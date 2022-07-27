@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 from flask import render_template, url_for, flash, redirect, request, make_response, jsonify, abort
 from dragon.ui.web import app
-from dragon.ui.web.utils import utils, altair_plot
+from dragon.ui.web.utils import utils, altair_plot, arm
 import json
 
 # Loading raw data and clean it
@@ -41,3 +41,12 @@ def plot_altair_global():
                'plot_global_time_series': plot_global_time_series, 'plot_geo_analysis': plot_geo_analysis}
     return render_template('altair.html', context=context)
 
+@app.route("/robot")
+def plot_robot_global():
+    context = {"dragon_arm": arm.dummy_plot()}
+    return render_template('dragon-tank.html', context=context)
+
+@app.route('/background_process_test')
+def background_process_test():
+    context = {"dragon_arm": arm.dummy_plot([(0, 0), (3, 3), (1, 4)])}
+    return render_template('dragon-tank.html', context=context)
