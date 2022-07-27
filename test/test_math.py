@@ -15,6 +15,5 @@ class TestMath(unittest.TestCase):
         self.assertEqual(two_point_angle((0, 0), (-1, 0)), 180.)
 
 
-
 if __name__ == '__main__':
     unittest.main()
