@@ -19,6 +19,7 @@ distance_shoulder_clamp_cm = 20
 shoulder_height_cm = 20
 
 
+
 def manual_configuration():
     pwm.set_all_pwm(0, 300)
 
