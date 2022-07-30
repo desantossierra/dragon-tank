@@ -21,3 +21,8 @@ static domain_name_servers=10.42.0.1 8.8.8.8
 ssh-keygen
 ssh-copy-id -i ~/.ssh/id_rsa.pub remote_host
 ```
+
+
+icons
+<a href="https://www.flaticon.es/iconos-gratis/robot" title="robot iconos">Robot iconos creados por Freepik - Flaticon</a>
+<a href="https://www.flaticon.es/iconos-gratis/robot" title="robot iconos">Robot iconos creados por Flat Icons - Flaticon</a>
