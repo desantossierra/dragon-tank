@@ -39,6 +39,12 @@ def circumferences_intersection(p0: (Number, Number), r0: Number, p1: (Number, N
             (round(x4, 5), round(y4, 5))]
 
 
+def circumferences_intersection_safe(p0: (Number, Number), r0: Number, p1: (Number, Number), r1: Number) -> list:
+    points = circumferences_intersection(p0, r0, p1, r1)
+    points = [(x,y) for (x, y) in points if y >= 0]
+    return points
+
+
 def two_point_angle(p0: (Number, Number), p1: (Number, Number), in_degrees: bool = True) -> Number:
     """
     It calculates the angle between two points
