@@ -1,5 +1,5 @@
 import streamlit as st
-from dragon.ui.apps.app import App
+from dragon.ui.old_apps.app import App
 import pandas as pd
 import numpy as np
 import altair as alt

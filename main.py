@@ -2,53 +2,75 @@ import multiprocessing
 import queue
 import time
 
-def proceso_1(cola_alta_prioridad, cola_proceso_2):
-    """Proceso que genera tareas de alta prioridad."""
-    for i in range(5):
-        cola_alta_prioridad.put((0, f"Tarea de alta prioridad {i}"))  # 0 indica alta prioridad
+from dragon.ui.dashboard import app, update_dashboard
+from dragon.utils.math import two_point_angle
+
+
+def wheels_and_clip(distance_queue, position_queue):
+    x, y = 250, 250
+    while True:
+        if distance_queue.empty():
+            print(f"wheels_and_clip: Me estoy desplazando {x}")
+            x += 1
+            y += 1
+            position_queue.put((x, y))
+        else:
+            distance = distance_queue.get()
+            if distance < 10:
+                print(f"wheels_and_clip: Me paro")
+            else:
+                print(f"wheels_and_clip: Me estoy desplazando {x}")
+                x += 1
+                position_queue.put((x, y))
+
         time.sleep(1)
-    cola_proceso_2.put("Mensaje para proceso 2 desde proceso 1")
 
-def proceso_2(cola_proceso_2, cola_proceso_3):
-    """Proceso que recibe mensajes de proceso 1 y envía a proceso 3."""
-    mensaje = cola_proceso_2.get()
-    print(f"Proceso 2 recibió: {mensaje}")
-    cola_proceso_3.put("Mensaje para proceso 3 desde proceso 2")
+def sonar(distance_queue):
+    distance = 3
+    while True:
+        distance = (distance + 3) % 25
+        distance_queue.put(distance)
+        print(f"sonar: {distance}")
+        time.sleep(2.5)
 
-def proceso_3(cola_proceso_3, cola_proceso_4):
-    """Proceso que recibe mensajes de proceso 2 y envía a proceso 4."""
-    mensaje = cola_proceso_3.get()
-    print(f"Proceso 3 recibió: {mensaje}")
-    cola_proceso_4.put("Mensaje para proceso 4 desde proceso 3")
-
-def proceso_4(cola_proceso_4, cola_alta_prioridad):
-    """Proceso que recibe mensajes de proceso 3 y maneja la cola de prioridad."""
-    mensaje = cola_proceso_4.get()
-    print(f"Proceso 4 recibió: {mensaje}")
-    while not cola_alta_prioridad.empty():
-        prioridad, tarea = cola_alta_prioridad.get()
-        print(f"Proceso 4 ejecutando: {tarea}")
-        time.sleep(0.5)
+def mapa(distance_queue, position_queue):
+    x, y, angle, distance = 250, 250, 0, 0
+    while True:
+        new_pos = False
+        if not distance_queue.empty():
+            distance = distance_queue.get()
+            new_pos = True
+        if not position_queue.empty():
+            xn, yn = position_queue.get()
+            x, y, angle = xn, yn, two_point_angle((x, y), (xn, yn))
+            new_pos = True
+        if new_pos:
+            shared_data = {'x': x, 'y': y, 'angle': angle, 'sonar_distance': distance}
+            update_dashboard(shared_data)
 
 if __name__ == "__main__":
-    cola_alta_prioridad = multiprocessing.Queue()
-    cola_proceso_2 = multiprocessing.Queue()
-    cola_proceso_3 = multiprocessing.Queue()
-    cola_proceso_4 = multiprocessing.Queue()
 
-    p1 = multiprocessing.Process(target=proceso_1, args=(cola_alta_prioridad, cola_proceso_2))
-    p2 = multiprocessing.Process(target=proceso_2, args=(cola_proceso_2, cola_proceso_3))
-    p3 = multiprocessing.Process(target=proceso_3, args=(cola_proceso_3, cola_proceso_4))
-    p4 = multiprocessing.Process(target=proceso_4, args=(cola_proceso_4, cola_alta_prioridad))
+    distance_queue = multiprocessing.Queue()
+    position_queue = multiprocessing.Queue()
+
+    p1 = multiprocessing.Process(target=wheels_and_clip, args=(distance_queue, position_queue))
+    p2 = multiprocessing.Process(target=sonar, args=(distance_queue,))
+    p3 = multiprocessing.Process(target=mapa, args=(distance_queue, position_queue))
 
     p1.start()
     p2.start()
     p3.start()
-    p4.start()
 
-    p1.join()
-    p2.join()
-    p3.join()
-    p4.join()
+    # dashboard = multiprocessing.Process(target=update_dashboard, args=(shared_data, ))
+    # dashboard.start()
+    app.run(debug=True, use_reloader=False) #use_reloader=False para evitar que se dupliquen los procesos.
+
+
+# p1.join()
+    # p2.join()
+    # p3.join()
+
+    while True:
+        time.sleep(100)
 
     print("Todos los procesos han terminado.")

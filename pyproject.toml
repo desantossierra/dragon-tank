@@ -20,7 +20,9 @@ dependencies = [
     "Adafruit-PureIO",
     "numpy",
     "pandas",
-    "opencv-python"
+    "opencv-python",
+    "flask",
+    "requests"
 ]
 
 [project.optional-dependencies]

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Robot Dashboard</title>
+    <script>
+        function updateData() {
+            fetch('/')
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    document.body.innerHTML = doc.body.innerHTML;
+                });
+        }
+        setInterval(updateData, 1000);
+    </script>
+</head>
+<head>
+    <title>Robot Dashboard</title>
+    <style>
+        #map {
+            width: 500px;
+            height: 500px;
+            border: 1px solid black;
+            position: relative;
+        }
+        .robot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: blue;
+            position: absolute;
+            transform: translate(-50%, -50%);
+        }
+        .direction-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-origin: center;
+        }
+        .direction {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: black;
+            position: absolute;
+            left: 50%;
+            top: -3px;
+            transform: translate(-50%, -50%);
+        }
+        .sonar {
+            height: 2px;
+            background-color: red;
+            position: absolute;
+            left: 50%;
+            top: -1px;
+            transform-origin: left center;
+        }
+    </style>
+</head>
+<body>
+<div id="map">
+    <div class="robot" style="left: {{ data.x }}px; top: {{ data.y }}px;">
+        <!-- Rotates everything together -->
+        <div class="direction-container" style="transform: rotate({{ data.angle }}deg);">
+            <div class="sonar" style="width: {{ data.sonar_distance }}px; height: 2px; background-color: red; transform: rotate(270deg);"></div>
+            <div class="direction"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

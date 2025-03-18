@@ -4,9 +4,9 @@ from PIL import Image
 
 from dragon.ui.style.palette import NavVar
 from dragon.ui.style.css_loader import local_css, remote_css
-from dragon.ui.apps.robot import Robot
-from dragon.ui.apps.about import About
-from dragon.ui.apps.unknown import Unknown
+from dragon.ui.old_apps.robot import Robot
+from dragon.ui.old_apps.about import About
+from dragon.ui.old_apps.unknown import Unknown
 
 if __name__ == '__main__':
     st.set_page_config(
