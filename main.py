@@ -2,6 +2,7 @@ import multiprocessing
 import queue
 import time
 
+from dragon.tank import Tank
 from dragon.ui.dashboard import app, update_dashboard
 from dragon.utils.math import two_point_angle
 
@@ -50,16 +51,18 @@ def mapa(distance_queue, position_queue):
 
 if __name__ == "__main__":
 
-    distance_queue = multiprocessing.Queue()
-    position_queue = multiprocessing.Queue()
+    # distance_queue = multiprocessing.Queue()
+    # position_queue = multiprocessing.Queue()
+    #
+    # p1 = multiprocessing.Process(target=wheels_and_clip, args=(distance_queue, position_queue))
+    # p2 = multiprocessing.Process(target=sonar, args=(distance_queue,))
+    # p3 = multiprocessing.Process(target=mapa, args=(distance_queue, position_queue))
+    #
+    # p1.start()
+    # p2.start()
+    # p3.start()
 
-    p1 = multiprocessing.Process(target=wheels_and_clip, args=(distance_queue, position_queue))
-    p2 = multiprocessing.Process(target=sonar, args=(distance_queue,))
-    p3 = multiprocessing.Process(target=mapa, args=(distance_queue, position_queue))
-
-    p1.start()
-    p2.start()
-    p3.start()
+    Tank.create()
 
     # dashboard = multiprocessing.Process(target=update_dashboard, args=(shared_data, ))
     # dashboard.start()

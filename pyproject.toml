@@ -22,7 +22,7 @@ dependencies = [
     "pandas",
     "opencv-python",
     "flask",
-    "requests"
+    "aiohttp"
 ]
 
 [project.optional-dependencies]

@@ -1,9 +1,13 @@
+import logging
+
 from flask import Flask, render_template, request, jsonify
 import requests
 
-import multiprocessing
-
 app = Flask(__name__)
+# Disable Werkzeug logging
+log = logging.getLogger('werkzeug')
+log.disabled = True
+
 shared_data = {'x': 0, 'y': 0, 'angle': 0, 'sonar_distance': 0}
 
 @app.route('/', methods=['GET', 'POST'])
@@ -17,10 +21,10 @@ def update():
     shared_data.update(data)
     return jsonify(shared_data)
 
-def update_dashboard(new_data):
+def update_dashboard(data):
     # it updates the shared_data via API
     try:
-        requests.post('http://127.0.0.1:5000/update', json=new_data)
+        requests.post('http://127.0.0.1:5000/update', json=data)
     except:
         pass
 
