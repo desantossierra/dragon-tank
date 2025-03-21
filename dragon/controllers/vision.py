@@ -1,4 +1,3 @@
-import abc
 import multiprocessing
 
 from dragon.conf import SimulationMode
@@ -17,9 +16,8 @@ class VisionSim(VisionABC):
 class VisionFactory:
     @classmethod
     def create(cls, mode:SimulationMode = SimulationMode.SIMULATION,
-               distance: multiprocessing.Queue = None,
-               position: multiprocessing.Queue = None) -> VisionABC:
+               location: multiprocessing.Array = None) -> VisionABC:
         if mode == SimulationMode.SIMULATION:
-            return VisionSim(distance, position)
+            return VisionSim(location)
         else:
-            return VisionReal(distance, position)
+            return VisionReal(location)
