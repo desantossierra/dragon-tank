@@ -18,3 +18,7 @@ requirements: requirements.txt
 
 requirements.txt: pyproject.toml
 	pip-compile --upgrade --extra dev --output-file=$@ pyproject.toml --no-strip-extras
+
+.PHONY: deploy
+deploy:
+	rsync -avz --delete . dragon@192.168.1.38:/home/dragon/code
