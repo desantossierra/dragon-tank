@@ -56,6 +56,15 @@
             top: -1px;
             transform-origin: left center;
         }
+        .obstacle {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: green;
+            position: absolute;
+            transform: translate(-50%, -50%);
+<!--            border: 1px solid yellow; /* Para verlos en la pantalla */-->
+        }
     </style>
 </head>
 <body>
@@ -67,6 +76,9 @@
             <div class="direction"></div>
         </div>
     </div>
+    {% for obstacle in data.obstacles %}
+    <div class="obstacle" style="left: {{ obstacle[0] }}px; top: {{ obstacle[1] }}px;"></div>
+    {% endfor %}
 </div>
 </body>
 </html>

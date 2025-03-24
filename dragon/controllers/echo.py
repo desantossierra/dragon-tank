@@ -1,12 +1,13 @@
 import math
 import multiprocessing
 import time
+from multiprocessing.util import MAXFD
 
 import numpy as np
 
 from dragon.conf import SimulationMode, SIMULATION_SLEEP_S
 from .controller_abc import ControllerABC
-from ..ui.dashboard import update_dashboard
+from ..tank_info import TankInfo
 
 
 class EchoABC(ControllerABC):
@@ -25,7 +26,7 @@ class EchoSim(EchoABC):
         self.map[400:450, 400:450] = 1
 
     def echo(self):
-        x, y, angle = self.location[0], self.location[1], self.location[2]
+        (x, y), angle = self.tank_info.get_position(), self.tank_info.get_direction()
         if not (0 <= x < self.map.shape[0] and 0 <= y < self.map.shape[1]):
             return 0
 
@@ -48,16 +49,19 @@ class EchoSim(EchoABC):
     def loop(self):
         while True:
             d = self.echo()
-            self.location[3] = d
+            self.tank_info.update_sonar(d)
+            if d < EchoSim.MAX_DISTANCE:
+                self.tank_info.add_obstacle()
 
             time.sleep(SIMULATION_SLEEP_S)
 
 
 class EchoFactory:
     @classmethod
-    def create(cls, mode:SimulationMode = SimulationMode.SIMULATION,
-               location: multiprocessing.Array = None) -> EchoABC:
+    def create(cls,
+               tank_info: TankInfo,
+               mode:SimulationMode = SimulationMode.SIMULATION) -> EchoABC:
         if mode == SimulationMode.SIMULATION:
-            return EchoSim(500, 500, location).loop()
+            return EchoSim(500, 500, tank_info).loop()
         else:
-            return EchoReal(location)
+            return EchoReal(tank_info)

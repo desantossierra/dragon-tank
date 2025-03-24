@@ -7,4 +7,4 @@ class SimulationMode(Enum):
     SIMULATION = 2
 
 
-SIMULATION_SLEEP_S = 0.05
+SIMULATION_SLEEP_S = 0.01

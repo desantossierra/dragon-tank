@@ -5,6 +5,7 @@ from flask import Flask, render_template, request, jsonify
 import requests
 
 from dragon.conf import SIMULATION_SLEEP_S
+from dragon.tank_info import TankInfo
 
 app = Flask(__name__)
 # Disable Werkzeug logging
@@ -24,12 +25,17 @@ def update():
     shared_data.update(data)
     return jsonify(shared_data)
 
-def update_dashboard(location):
+def update_dashboard(tank_info: TankInfo):
     while True:
-        data = {'x': location[0],
-                'y': location[1],
-                'angle': location[2],
-                'sonar_distance': location[3]}
+        x, y = tank_info.get_position()
+        angle = tank_info.get_direction()
+        sonar_distance = tank_info.get_distance()
+        obstacles = tank_info.obstacles_coordinates()
+        data = {'x': x,
+                'y': y,
+                'angle': angle,
+                'sonar_distance': sonar_distance,
+                'obstacles': obstacles}
         # it updates the shared_data via API
         try:
             requests.post('http://127.0.0.1:5000/update', json=data)

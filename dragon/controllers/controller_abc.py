@@ -1,9 +1,10 @@
 import abc
-import multiprocessing
+
+from dragon.tank_info import TankInfo
 
 
 class ControllerABC(abc.ABC):
     def __init__(self,
-                 location: multiprocessing.Array = None):
-        self.location = location
+                 tank_info: TankInfo):
+        self.tank_info = tank_info
 
