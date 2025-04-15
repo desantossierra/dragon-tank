@@ -24,6 +24,20 @@
             border: 1px solid black;
             position: relative;
         }
+        #obstacle1 {
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+            position: absolute;
+        }
+        #obstacle2 {
+            left: 400px;
+            top: 400px;
+            width: 50px;
+            height: 50px;
+            border: 1px solid black;
+            position: absolute;
+        }
         .robot {
             width: 20px;
             height: 20px;
@@ -79,6 +93,8 @@
     {% for obstacle in data.obstacles %}
     <div class="obstacle" style="left: {{ obstacle[0] }}px; top: {{ obstacle[1] }}px;"></div>
     {% endfor %}
+    <div id="obstacle1"></div>
+    <div id="obstacle2"></div>
 </div>
 </body>
 </html>

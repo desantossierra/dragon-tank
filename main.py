@@ -52,17 +52,17 @@ def mapa(distance_queue, position_queue):
 
 if __name__ == "__main__":
 
-    Tank.create(mode=SimulationMode.REAL)
+    Tank.create()
     app.run(debug=True, use_reloader=False) #use_reloader=False para evitar que se dupliquen los procesos.
 
-    try:
-        while True:
-            time.sleep(100)
-    except:
-        from dragon.io.wheels import Wheels
-        wheels = Wheels()
-        wheels.setup()
-        wheels.stop()
-        wheels.cleanup()
+#     try:
+#         while True:
+#             time.sleep(100)
+#     except:
+#         from dragon.io.wheels import Wheels
+#         wheels = Wheels()
+#         wheels.setup()
+#         wheels.stop()
+#         wheels.cleanup()
 
     print("Todos los procesos han terminado.")

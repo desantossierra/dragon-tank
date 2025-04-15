@@ -1,7 +1,6 @@
 import math
 import multiprocessing
 import time
-import traceback
 
 
 class TankInfo:

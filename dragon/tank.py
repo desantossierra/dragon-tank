@@ -7,10 +7,18 @@ from .controllers import EchoFactory, MotionFactory, VisionFactory, LocationFact
 from .tank_info import TankInfo
 from .ui.dashboard import update_dashboard
 
+import platform
+
 
 class Tank:
     @classmethod
-    def create(cls, mode:SimulationMode = SimulationMode.SIMULATION) -> None:
+    def create(cls) -> None:
+
+        if platform.machine().startswith("arm"):
+            mode = SimulationMode.REAL
+        else:
+            mode = SimulationMode.SIMULATION
+
         tank_info = TankInfo()
         tank_info.update_wheels(step_size=0, dangle=0)
         tank_info.update_sonar(distance=50)

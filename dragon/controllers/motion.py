@@ -6,7 +6,10 @@ import time
 from dragon.conf import SimulationMode, SIMULATION_SLEEP_S
 from .controller_abc import ControllerABC
 from ..tank_info import TankInfo
-from dragon.io.wheels import Wheels
+
+import platform
+if platform.machine().startswith("arm"):
+    from dragon.io.wheels import Wheels
 
 
 class MotionABC(ControllerABC):
