@@ -8,7 +8,10 @@ import numpy as np
 from dragon.conf import SimulationMode, SIMULATION_SLEEP_S
 from .controller_abc import ControllerABC
 from ..tank_info import TankInfo
-from dragon.io.sonar import Sonar
+
+import platform
+if platform.machine().startswith("arm"):
+    from dragon.io.sonar import Sonar
 
 
 class EchoABC(ControllerABC):
@@ -38,9 +41,18 @@ class EchoSim(EchoABC):
         self.map = np.zeros((width, height))
         self.map[:100,:100] = 1 # a couple of obstacles
         self.map[400:450, 400:450] = 1
+        self.error_x, self.error_y, self.error_angle = 0, 0, 0
 
     def echo(self):
         (x, y), angle = self.tank_info.get_position(), self.tank_info.get_direction()
+        # I sum some random error to the actual x,y to simulate the errors we get when moving the robot
+        # TODO: consider to refactor this code and have some constant for the lower&upper limits.
+        x += self.error_x
+        y += self.error_y
+        self.error_x += np.random.uniform(-0.01, 0.01)
+        self.error_y += np.random.uniform(-0.01, 0.01)
+        self.error_angle += np.random.uniform(-0.05, 0.05)
+        angle = (angle + self.error_angle) % 360
         if not (0 <= x < self.map.shape[0] and 0 <= y < self.map.shape[1]):
             return 0
 
