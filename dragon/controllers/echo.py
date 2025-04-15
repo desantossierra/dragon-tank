@@ -8,6 +8,7 @@ import numpy as np
 from dragon.conf import SimulationMode, SIMULATION_SLEEP_S
 from .controller_abc import ControllerABC
 from ..tank_info import TankInfo
+from dragon.io.sonar import Sonar
 
 
 class EchoABC(ControllerABC):
@@ -15,7 +16,20 @@ class EchoABC(ControllerABC):
 
 class EchoReal(EchoABC):
     def __init__(self, *args, **kwargs):
+        print("Echo Real")
         super().__init__(*args, **kwargs)
+        self.sonar = Sonar()
+        self.sonar.setup()
+
+    def echo(self):
+        d = self.sonar.distance()
+        print(f"Echo Real {d} cm")
+        return d
+
+    def loop(self):
+        while True:
+            d = self.echo()
+            self.tank_info.update_sonar(d)
 
 class EchoSim(EchoABC):
     MAX_DISTANCE = 50
@@ -64,4 +78,4 @@ class EchoFactory:
         if mode == SimulationMode.SIMULATION:
             return EchoSim(500, 500, tank_info).loop()
         else:
-            return EchoReal(tank_info)
+            return EchoReal(tank_info).loop()

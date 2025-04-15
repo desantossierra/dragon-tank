@@ -58,6 +58,10 @@ MOTOR_B_EN = 17
 MOTOR_B_PIN1 = 27
 MOTOR_B_PIN2 = 18
 
+DEGREE_TS_100 = 0.007
+CM_TS = 0.033
+
+
 class Wheels:
     """Clase para controlar ambas ruedas del robot."""
 
@@ -84,6 +88,21 @@ class Wheels:
         """Mueve el robot hacia atrás."""
         self.left_wheel.backward(speed)
         self.right_wheel.backward(speed)
+
+    def move(self, cm):
+        if cm > 0:
+            self.forward(100)
+        else:
+            self.backward(100)
+        time.sleep(abs(CM_TS * cm))
+
+    def turn_degrees(self, degrees):
+        if degrees > 0:
+            self.turn_left(100, 1)
+        else:
+            self.turn_right(100, 1)
+        time.sleep(abs(degrees* DEGREE_TS_100))
+        self.stop()
 
     def turn_left(self, speed, radius=0.6):
         """Gira el robot a la izquierda."""

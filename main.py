@@ -2,6 +2,7 @@ import multiprocessing
 import queue
 import time
 
+from dragon.conf import SimulationMode
 from dragon.tank import Tank
 from dragon.ui.dashboard import app, update_dashboard
 from dragon.utils.math import two_point_angle
@@ -51,29 +52,17 @@ def mapa(distance_queue, position_queue):
 
 if __name__ == "__main__":
 
-    # distance_queue = multiprocessing.Queue()
-    # position_queue = multiprocessing.Queue()
-    #
-    # p1 = multiprocessing.Process(target=wheels_and_clip, args=(distance_queue, position_queue))
-    # p2 = multiprocessing.Process(target=sonar, args=(distance_queue,))
-    # p3 = multiprocessing.Process(target=mapa, args=(distance_queue, position_queue))
-    #
-    # p1.start()
-    # p2.start()
-    # p3.start()
-
-    Tank.create()
-
-    # dashboard = multiprocessing.Process(target=update_dashboard, args=(shared_data, ))
-    # dashboard.start()
+    Tank.create(mode=SimulationMode.REAL)
     app.run(debug=True, use_reloader=False) #use_reloader=False para evitar que se dupliquen los procesos.
 
-
-# p1.join()
-    # p2.join()
-    # p3.join()
-
-    while True:
-        time.sleep(100)
+    try:
+        while True:
+            time.sleep(100)
+    except:
+        from dragon.io.wheels import Wheels
+        wheels = Wheels()
+        wheels.setup()
+        wheels.stop()
+        wheels.cleanup()
 
     print("Todos los procesos han terminado.")

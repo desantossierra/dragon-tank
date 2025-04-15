@@ -1,13 +1,16 @@
 import RPi.GPIO as GPIO
 import time
 
+TRIGGER_PIN = 11
+ECHO_PIN = 8
+
 class Sonar:
     """Clase para controlar el sensor ultrasónico."""
 
-    def __init__(self, trigger_pin, echo_pin):
+    def __init__(self):
         """Inicializa el sensor con los pines GPIO."""
-        self.trigger_pin = trigger_pin
-        self.echo_pin = echo_pin
+        self.trigger_pin = TRIGGER_PIN
+        self.echo_pin = ECHO_PIN
         self.setup()
 
     def setup(self):
@@ -44,12 +47,10 @@ class Sonar:
         GPIO.cleanup((self.trigger_pin, self.echo_pin))
 
 # Pines GPIO para el sensor ultrasónico
-TRIGGER_PIN = 11
-ECHO_PIN = 8
 
 if __name__ == '__main__':
     try:
-        sonar = Sonar(TRIGGER_PIN, ECHO_PIN)
+        sonar = Sonar()
         while True:
             distance = sonar.distance()
             print("%.2f cm" % distance)

@@ -6,6 +6,7 @@ import time
 from dragon.conf import SimulationMode, SIMULATION_SLEEP_S
 from .controller_abc import ControllerABC
 from ..tank_info import TankInfo
+from dragon.io.wheels import Wheels
 
 
 class MotionABC(ControllerABC):
@@ -15,8 +16,30 @@ class MotionABC(ControllerABC):
         raise NotImplementedError
 
 class MotionReal(MotionABC):
+    def __init__(self, *args, **kwargs):
+        print("Motion Real")
+        super().__init__(*args, **kwargs)
+        self.wheels = Wheels()
+        self.wheels.setup()
+
     def walk(self):
-        pass
+        self.wheels.forward(50)
+        self.tank_info.update_wheels(1, 0)
+
+    def turn(self):
+        print("Motion Real turning")
+        self.wheels.turn_left(90, 1)
+        while self.tank_info.get_distance() < 50:
+            pass
+        self.wheels.forward(50)
+
+    def loop(self):
+        print("Motion loop")
+        while True:
+            if self.tank_info.get_distance() > 30:
+                self.walk()
+            else:
+                self.turn()
 
 class MotionSim(MotionABC):
     def __init__(self, *args, **kwargs):
@@ -47,4 +70,4 @@ class MotionFactory:
         if mode == SimulationMode.SIMULATION:
             return MotionSim(tank_info).loop()
         else:
-            return MotionReal(tank_info)
+            return MotionReal(tank_info).loop()
