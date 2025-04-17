@@ -2,6 +2,7 @@ import abc
 import math
 import multiprocessing
 import time
+import random
 
 from dragon.conf import SimulationMode, SIMULATION_SLEEP_S
 from .controller_abc import ControllerABC
@@ -55,13 +56,28 @@ class MotionSim(MotionABC):
     def turn(self):
         self.tank_info.update_wheels(0, 100)
 
+    def find_free_space(self):
+        max_d, max_i = self.tank_info.get_distance(), 0
+        left = -1 if random.random() < 0.5 else 1
+        for i in range(36):  # 360 turn to find a space without obstacles
+            time.sleep(SIMULATION_SLEEP_S)
+            self.tank_info.update_wheels(0, 10 * left)
+            d = self.tank_info.get_distance()
+            if d > max_d:
+                max_d = d
+                max_i = i
+
+        max_i += 1
+        self.tank_info.update_wheels(0, max_i*10*left)
+
+
     def loop(self):
         print("Motion loop")
         while True:
             if self.tank_info.get_distance() > 20:
                 self.walk()
             else:
-                self.turn()
+                self.find_free_space()
 
             time.sleep(SIMULATION_SLEEP_S)
 
