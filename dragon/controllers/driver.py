@@ -4,13 +4,16 @@ from .controller_abc import ControllerABC
 from ..tank_info import TankInfo
 
 
-class LocationABC(ControllerABC):
+class DriverABC(ControllerABC):
+    """
+    Driver aims to collect all the information from the sensors, integrates them and decides what movement to do next.
+    """
 
     @abc.abstractmethod
     def locate(self):
         raise NotImplementedError
 
-class LocationReal(LocationABC):
+class DriverReal(DriverABC):
 
     def locate(self):
         pass
@@ -20,9 +23,9 @@ class LocationReal(LocationABC):
             self.locate()
 
 
-class LocationFactory:
+class DriverFactory:
     @classmethod
     def create(cls,
                tank_info: TankInfo
-               ) -> LocationABC:
-        return LocationReal(tank_info)
+               ) -> DriverABC:
+        return DriverReal(tank_info)

@@ -14,6 +14,10 @@ if platform.machine().startswith("arm"):
 
 
 class MotionABC(ControllerABC):
+    """
+    Motion aims to control the wheels. It sends information about the movement: forward, backward or turns.
+    It implements some sort of mechanism to avoid collision without intervention of the Driver.
+    """
 
     @abc.abstractmethod
     def walk(self):

@@ -3,7 +3,7 @@ import multiprocessing
 import time
 
 from .conf import SimulationMode
-from .controllers import EchoFactory, MotionFactory, VisionFactory, LocationFactory
+from .controllers import EchoFactory, MotionFactory, VisionFactory, DriverFactory
 from .tank_info import TankInfo
 from .ui.dashboard import update_dashboard
 
@@ -26,7 +26,7 @@ class Tank:
         motion = multiprocessing.Process(target=MotionFactory.create, args=(tank_info, mode))
         echo = multiprocessing.Process(target=EchoFactory.create, args=(tank_info, mode))
         vision = multiprocessing.Process(target=VisionFactory.create, args=(tank_info, mode))
-        geolocation = multiprocessing.Process(target=LocationFactory.create, args=(tank_info,))
+        geolocation = multiprocessing.Process(target=DriverFactory.create, args=(tank_info,))
 
         dashboard = multiprocessing.Process(target=update_dashboard, args=(tank_info,))
 

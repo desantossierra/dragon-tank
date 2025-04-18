@@ -6,6 +6,11 @@ from dragon.tank_info import TankInfo
 
 
 class VisionABC(ControllerABC):
+    """
+    Vision controls the camera.
+    TODO: it detects objects and decides if something is of interest. It tries to locate it into the space and send the
+    TODO: position as new target.
+    """
     pass
 
 class VisionReal(VisionABC):

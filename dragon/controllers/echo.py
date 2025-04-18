@@ -15,6 +15,10 @@ if platform.machine().startswith("arm"):
 
 
 class EchoABC(ControllerABC):
+    """
+    Echo aims to control the sonar sensor. It queries the sonar to collect the distance to the objects and ships it to
+    the central system to integrate the information
+    """
     pass
 
 class EchoReal(EchoABC):
