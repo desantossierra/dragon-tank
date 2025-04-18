@@ -1,0 +1,54 @@
+[build-system]
+requires = [
+    "setuptools >= 75.0",
+]
+#build-backend = "setuptools.build_meta"
+
+[project]
+name = "dragon-tank"
+authors=[{name="Daniel de Santos Sierra"}]
+dynamic = ["version"]
+readme = "README.md"
+
+requires-python = ">=3.13"
+dependencies = [
+    "typer",
+    "pyhocon",
+    "RPi.GPIO",
+    "Adafruit-GPIO",
+    "Adafruit-PCA9685",
+    "Adafruit-PureIO",
+    "numpy",
+    "pandas",
+    "opencv-python",
+    "flask",
+    "aiohttp",
+    "requests"
+]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "pip-tools",
+    "tox>=4",
+    "pytest"
+]
+
+#[project.scripts]
+#dragon = "dragon.main:app"
+#
+#[project.entry-points."pipx.run"]
+#dragon = "dragon.main:app"
+
+[tool.setuptools.package-data]
+madland = ["scripts/*", "*.json", "*.template", "*.yaml"]
+
+[tool.black]
+line-length = 80
+
+[tool.autopep8]
+max_line_length = 80
+
+[tool.isort]
+profile = "black"
+
