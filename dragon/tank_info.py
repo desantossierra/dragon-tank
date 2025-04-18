@@ -29,7 +29,7 @@ class TankInfo:
     def get_goal(self):
         return self.goal[0], self.goal[1]
 
-    def direction_to_goal(self):
+    def direction_to_goal(self): # TODO: This should go to the Driver
         x_goal, y_goal = self.get_goal()
         x_robot, y_robot = self.get_position()
         angle_robot = self.get_direction()
@@ -44,7 +44,7 @@ class TankInfo:
             degrees = round(math.degrees(radians) - angle_robot) % 360
             return degrees
 
-    def gradient_direction(self):
+    def gradient_direction(self): # TODO: This should go to the Driver
         x_goal, y_goal = self.get_goal()
         x_robot, y_robot = self.get_position()
         angle_robot = self.get_direction()
@@ -91,7 +91,7 @@ class TankInfo:
         ix = int(self.obstacles_idx[0])
         c = int(self.obstacles_idx[1])
 
-        if c >= 2:
+        if c >= 2:  # To avoid track same obstacle twice
             last_x, last_y = self.obstacles[(ix-2)%OBSTACLE_MEMORY], self.obstacles[(ix-1)%OBSTACLE_MEMORY]
             distance = math.sqrt((last_x - x_final) ** 2 + (last_y - y_final) ** 2)
             if distance < 10.01:
