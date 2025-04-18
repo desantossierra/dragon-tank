@@ -1,6 +1,8 @@
+from typing import List
+
 import numpy as np
 from numbers import Number
-from math import atan2, degrees, radians
+from math import atan2, degrees, radians, sqrt
 
 
 def circumferences_intersection(p0: (Number, Number), r0: Number, p1: (Number, Number), r1: Number) -> list:
@@ -65,3 +67,29 @@ def two_point_angle(p0: (Number, Number), p1: (Number, Number), in_degrees: bool
         return degrees(angle)
 
     return radians(angle)
+
+def two_point_distance(p0: (Number, Number), p1: (Number, Number)):
+    (x0, y0) = p0
+    (x1, y1) = p1
+    return sqrt((x0 - x1) ** 2 + (y0 - y1) ** 2)
+
+def repulsive_force(distance, k_repulsive=1., influence_radius=30.):
+    return k_repulsive * (1/distance - 1/influence_radius) / (distance**2)
+
+def attractive_force(distance, k_attractive=1.):
+    return k_attractive * (1/distance)
+
+def calculate_forces(p0: (Number, Number), l1: List, attractive=True):
+    if len(l1) == 0:
+        return 0, 0
+    if attractive:
+        forces = [(two_point_angle(p0, p1), attractive_force(two_point_distance(p0, p1))) for p1 in l1]
+    else:
+        forces = [(two_point_angle(p0, p1), repulsive_force(two_point_distance(p0, p1))) for p1 in l1]
+    acc_angle = 0
+    acc_force = 0
+    for ang, force in forces:
+        acc_angle += (ang * force) if force>0 else ((ang + 180) * abs(force))
+        acc_force += abs(force)
+    angle = acc_angle/acc_force
+    return angle, acc_force

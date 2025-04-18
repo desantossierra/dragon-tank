@@ -31,11 +31,14 @@ def update_dashboard(tank_info: TankInfo):
         angle = tank_info.get_direction()
         sonar_distance = tank_info.get_distance()
         obstacles = tank_info.obstacles_coordinates()
+        goal_x, goal_y = tank_info.get_goal()
         data = {'x': x,
                 'y': y,
                 'angle': angle,
                 'sonar_distance': sonar_distance,
-                'obstacles': obstacles}
+                'obstacles': obstacles,
+                'goal_x': goal_x,
+                'goal_y': goal_y}
         # it updates the shared_data via API
         try:
             requests.post('http://127.0.0.1:5000/update', json=data)

@@ -38,6 +38,14 @@
             border: 1px solid black;
             position: absolute;
         }
+        .goal {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: red;
+            position: absolute;
+            transform: translate(-50%, -50%);
+        }
         .robot {
             width: 20px;
             height: 20px;
@@ -83,6 +91,8 @@
 </head>
 <body>
 <div id="map">
+    <div class="goal" style="left: {{ data.goal_x }}px; top: {{ data.goal_y }}px;">
+    </div>
     <div class="robot" style="left: {{ data.x }}px; top: {{ data.y }}px;">
         <!-- Rotates everything together -->
         <div class="direction-container" style="transform: rotate({{ data.angle + 90 }}deg);">

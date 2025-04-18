@@ -53,8 +53,8 @@ class MotionSim(MotionABC):
     def walk(self):
         self.tank_info.update_wheels(self.step_size, 0)
 
-    def turn(self):
-        self.tank_info.update_wheels(0, 100)
+    def turn(self, angle):
+        self.tank_info.update_wheels(0, angle)
 
     def find_free_space(self):
         max_d, max_i = self.tank_info.get_distance(), 0
@@ -75,7 +75,11 @@ class MotionSim(MotionABC):
         print("Motion loop")
         while True:
             if self.tank_info.get_distance() > 20:
-                self.walk()
+                direction = self.tank_info.gradient_direction()
+                if direction == 0:
+                    self.walk()
+                else:
+                    self.turn(angle=direction)
             else:
                 self.find_free_space()
 
