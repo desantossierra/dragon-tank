@@ -26,8 +26,8 @@ class Tank:
         motion = multiprocessing.Process(target=MotionFactory.create, args=(tank_info, mode))
         echo = multiprocessing.Process(target=EchoFactory.create, args=(tank_info, mode))
         vision = multiprocessing.Process(target=VisionFactory.create, args=(tank_info, mode))
-        geolocation = multiprocessing.Process(target=DriverFactory.create, args=(tank_info,))
+        driver = multiprocessing.Process(target=DriverFactory.create, args=(tank_info,))
 
         dashboard = multiprocessing.Process(target=update_dashboard, args=(tank_info,))
 
-        motion.start(), echo.start(), vision.start(), geolocation.start(), dashboard.start()
+        motion.start(), echo.start(), vision.start(), driver.start(), dashboard.start()

@@ -36,7 +36,7 @@ class MotionABC(ControllerABC):
                 self.find_free_space()
                 move_away_from_obstacle = 100
             else:
-                direction = self.tank_info.gradient_direction()
+                direction = self.tank_info.get_driver_direction()
                 if direction == 0 or move_away_from_obstacle > 0:
                     self.walk()
                     move_away_from_obstacle -= 1

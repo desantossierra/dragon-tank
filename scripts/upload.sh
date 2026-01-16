@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-RASPI="dragon@192.168.1.38"
+RASPI="dragon@192.168.1.150"
 MAIN_DIR="/tmp/project"
 SCRIPT_DIR="${MAIN_DIR}/scripts"
 

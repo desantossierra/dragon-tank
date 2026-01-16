@@ -21,4 +21,4 @@ requirements.txt: pyproject.toml
 
 .PHONY: deploy
 deploy:
-	rsync -avz --delete . dragon@192.168.1.38:/home/dragon/dragon-tank
+	rsync -avz --delete . dragon@192.168.1.150:/home/dragon/dragon-tank
